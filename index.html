@@ -12,11 +12,56 @@
   </header>
 
   <main>
-    <iframe src="quizgame/index.html" title="Quiz Game"></iframe>
+    <div class="game-wrapper">
+
+      <!-- Start Screen Overlay -->
+      <div class="start-screen" id="startScreen">
+        <h2>Welcome to the Quiz!</h2>
+        <button id="startBtn">Start Game ▶</button>
+      </div>
+
+      <!-- Game Frame -->
+      <iframe id="gameFrame" src="quizgame/index.html" title="Quiz Game"></iframe>
+
+      <!-- Controls -->
+      <div class="game-controls">
+        <button id="fullscreenBtn">⛶</button>
+        <button id="muteBtn">🔊</button>
+      </div>
+
+    </div>
   </main>
 
   <footer>
-    <p>© 2025 Quiz Team</p>
+    <p>Quiz game UI</p>
   </footer>
+
+<script>
+// Show game when Start is clicked
+const startScreen = document.getElementById("startScreen");
+const startBtn = document.getElementById("startBtn");
+const iframe = document.getElementById("gameFrame");
+
+startBtn.onclick = () => {
+  startScreen.style.opacity = "0";
+  setTimeout(() => { startScreen.style.display = "none"; }, 300);
+};
+
+// Fullscreen
+const fullscreenBtn = document.getElementById("fullscreenBtn");
+fullscreenBtn.onclick = () => {
+  if (iframe.requestFullscreen) iframe.requestFullscreen();
+};
+
+// Mute (just hides iframe audio if allowed)
+const muteBtn = document.getElementById("muteBtn");
+let muted = false;
+muteBtn.onclick = () => {
+  muted = !muted;
+  iframe.contentWindow.postMessage({ type: "mute", value: muted }, "*");
+  muteBtn.textContent = muted ? "🔈" : "🔊";
+};
+</script>
+
 </body>
 </html>
